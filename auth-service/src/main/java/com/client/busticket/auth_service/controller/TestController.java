@@ -12,7 +12,7 @@ public class TestController {
 
     @GetMapping("/status")
     public String getStatus(){
-        String result = "Testing Status.";
+        String result = "New status is okay.";
         return result;
     }
 }
