@@ -2,12 +2,16 @@ package com.client.busticket.auth_service.entity;
 
 import com.client.busticket.auth_service.enums.Role;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Users implements UserDetails {
@@ -22,12 +26,20 @@ public class Users implements UserDetails {
     private String email;
     private String password;
 
+    @Getter
+    @Setter
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" +role.name()));
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_"+ role.name()));
+        Set<SimpleGrantedAuthority> grantedAuthorities = role.getPermissions().stream()
+                .map(permissions -> new SimpleGrantedAuthority(permissions.name()))
+                .collect(Collectors.toSet());
+        authorities.addAll(grantedAuthorities);
+        return authorities;
     }
 
     @Override
@@ -39,4 +51,5 @@ public class Users implements UserDetails {
     public String getUsername() {
         return email;
     }
+
 }
