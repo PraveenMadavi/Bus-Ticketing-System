@@ -1,6 +1,7 @@
 package com.client.busticket.auth_service.filters;
 
-import com.eazybyts.chat_app.userdetails.UserDetailsServiceImpl;
+import com.client.busticket.auth_service.components.JwtHelper;
+import com.client.busticket.auth_service.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtHelper jwtHelper;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -51,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             System.out.println("User authentication by jwt "+username);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
                 // Use the validateToken method that takes both token and UserDetails
                 if (jwtHelper.validateToken(jwt, userDetails)) {
