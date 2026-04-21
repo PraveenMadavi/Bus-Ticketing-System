@@ -14,7 +14,6 @@ public class TestController {
     @GetMapping("/status")
     @PreAuthorize("hasAuthority('APP_READ')")
     public String getStatus(){
-        String result = "New status is okay.";
-        return result;
+        return "New status is okay.";
     }
 }
