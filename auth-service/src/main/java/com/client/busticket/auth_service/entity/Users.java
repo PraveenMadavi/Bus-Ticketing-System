@@ -2,9 +2,7 @@ package com.client.busticket.auth_service.entity;
 
 import com.client.busticket.auth_service.enums.Role;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +17,8 @@ import java.util.stream.Collectors;
 @Setter
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
