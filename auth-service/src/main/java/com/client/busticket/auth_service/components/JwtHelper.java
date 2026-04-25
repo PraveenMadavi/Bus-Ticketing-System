@@ -3,35 +3,40 @@ package com.client.busticket.auth_service.components;
 
 import com.client.busticket.auth_service.entity.Users;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@ConfigurationProperties(prefix = "jwt")
+//@ConfigurationProperties(prefix = "jwt")
+/**
+ * FUTURE NOTE
+ * Remove
+ * >> manual parsing methods
+ * >> validation methods
+ * because they don't require in auth_service.
+ */
 @Getter
 @Setter
 @Component
+@AllArgsConstructor
 public class JwtHelper {
+
+    private final RSAPrivateKey rsaPrivateKey;
+
+    private final RSAPublicKey rsaPublicKey;
 
     // Token validity (1 hours)
     public static final long JWT_TOKEN_VALIDITY = 60 * 60 * 1000;
-
-    private String secret;
-
-    private Key getSignKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
-    }
 
     //.......................................................
 
@@ -43,14 +48,13 @@ public class JwtHelper {
         return doGenerateToken(claims, users.getUsername());
     }
 
-
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .setClaims(claims)
+                .addClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-                .signWith(getSignKey())
+                .signWith(rsaPrivateKey,SignatureAlgorithm.RS256)
                 .compact();
     }
 
@@ -87,7 +91,7 @@ public class JwtHelper {
      */
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSignKey())
+                .setSigningKey(rsaPublicKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

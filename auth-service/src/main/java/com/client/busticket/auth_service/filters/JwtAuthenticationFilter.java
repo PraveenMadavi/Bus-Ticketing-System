@@ -61,6 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
+                // THIS STEP >> NO NEED OF VALIDATION TOKEN IN MICROSERVICES...(AUTH_SERVICE)
                 // Use the validateToken method that takes both token and UserDetails
                 if (jwtHelper.validateToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication =
