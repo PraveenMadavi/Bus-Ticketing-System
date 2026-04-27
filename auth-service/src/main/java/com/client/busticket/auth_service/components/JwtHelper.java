@@ -36,7 +36,7 @@ public class JwtHelper {
     private final RSAPublicKey rsaPublicKey;
 
     // Token validity (1 hours)
-    public static final long JWT_TOKEN_VALIDITY = 60 * 60 * 1000;
+    public static final long JWT_TOKEN_VALIDITY = 60 * 1000;
 
     //.......................................................
 

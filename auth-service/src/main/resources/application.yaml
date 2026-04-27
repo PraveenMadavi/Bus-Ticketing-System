@@ -1,6 +1,9 @@
+#AUTH-SERVICE
+
 spring:
   application:
     name: auth-service
   profiles:
-    active: dev
+    active:
+      - dev
 

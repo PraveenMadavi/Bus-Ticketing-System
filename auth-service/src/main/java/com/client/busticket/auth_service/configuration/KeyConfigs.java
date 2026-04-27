@@ -18,11 +18,11 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Configuration
-public class AppConfigs {
+public class KeyConfigs {
 
     private final String keyId;
 
-    public AppConfigs(@Value("${jwt.key-id}") String keyId) {
+    public KeyConfigs(@Value("${jwt.key-id}") String keyId) {
         this.keyId = keyId;
     }
 
