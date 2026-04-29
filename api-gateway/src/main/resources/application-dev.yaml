@@ -1,18 +1,11 @@
 # GATEWAY-DEV
 
-server:
-  port: 8080
-
 spring:
-  application:
-    name: api-gateway
-
   security:
     oauth2:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:8081/.well-known/jwks.json
-
   cloud:
     gateway:
       server:

@@ -1,4 +1,6 @@
 #AUTH-SERVICE
+server:
+  port: 8081
 
 spring:
   application:
