@@ -1,9 +1,12 @@
 package com.client.busticket.bus_service.entity;
 
 import com.client.busticket.bus_service.enums.BusType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -15,10 +18,16 @@ public class Bus {
 
     private String busNumber;
 
-    //enum for bus type (e.g., AC, Non-AC, Sleeper)
     @Enumerated(EnumType.STRING)
     private BusType busType;
 
     private int totalSeats;
 
+    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Seat> seats;
+
+    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Trip> trips;
 }

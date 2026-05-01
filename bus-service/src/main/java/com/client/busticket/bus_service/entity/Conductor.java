@@ -10,16 +10,16 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class Route {
+public class Conductor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String source;
+    private String name;
 
-    private String destination;
+    private String contactNumber;
 
-    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Trip> trips;
 }
