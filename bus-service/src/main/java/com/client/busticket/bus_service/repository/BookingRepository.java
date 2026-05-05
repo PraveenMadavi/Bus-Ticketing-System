@@ -6,10 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-        Booking findByBookingReference(String bookingReference);
+//        Booking findByBookingReference(String bookingReference);
+//
+//        Booking findByUserId(Long userId);
 
-        Booking findByUserId(Long userId);
-
-        Booking findByBusId(Long busId);
 
 }

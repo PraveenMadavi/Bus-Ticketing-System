@@ -69,7 +69,7 @@ public class SecurityConfig {
 
         // 👇 depends on your JWT structure
         // 👇 match your JWT claim
-        converter.setAuthoritiesClaimName("authorities"); // or "scope" or "permissions"
+        converter.setAuthoritiesClaimName("roles");
 
         // ❌ No prefix (VERY IMPORTANT)
         converter.setAuthorityPrefix("");
