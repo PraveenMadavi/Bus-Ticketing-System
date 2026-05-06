@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,4 +31,12 @@ public class Bus {
     @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Trip> trips;
+
+    public void addSeat(Seat seat) {
+        if (seats==null) {
+            seats = new ArrayList<>();
+        }
+        seats.add(seat);
+        seat.setBus(this);
+    }
 }

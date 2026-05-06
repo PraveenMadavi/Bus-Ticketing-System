@@ -1,8 +1,9 @@
 package com.client.busticket.bus_service.enums;
 
 public enum BusType {
-    AC,
-    NON_AC,
-    SLEEPER,
-    SEATER
+    AC_SLEEPER,
+    NON_AC_SLEEPER,
+
+    AC_SEATER,
+    NON_AC_SEATER
 }
