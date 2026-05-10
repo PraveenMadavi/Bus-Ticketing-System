@@ -16,7 +16,9 @@ public class TripService {
     private final BusRepository busRepository;
     private final TripRepository tripRepository;
     private final DriverRepository driverRepository;
+    private final DriverService driverService;
     private final ConductorRepository conductorRepository;
+    private final ConductorService conductorService;
 
     //Sets route and bus for a trip and saves it to the database
     public Trip saveTrip(TripInfo tripInfo) {
@@ -41,11 +43,15 @@ public class TripService {
         Driver driver = driverRepository.findById(tripInfo.driverId()).orElseThrow();
         Conductor conductor = conductorRepository.findById(tripInfo.conductorId()).orElseThrow();
         Trip trip = tripRepository.findById(id).orElseThrow();
-        //Setup cascade update for driver and conductor
+
         trip.setDriver(driver);
         trip.setConductor(conductor);
         trip.setDepartureTime(tripInfo.departureTime());
         trip.setArrivalTime(tripInfo.arrivalTime());
+
+        driverService.assignTrip(driver.getId(), trip.getId());
+        conductorService.assignTrip(conductor.getId(), trip.getId());
+
         return tripRepository.save(trip);
     }
 }
