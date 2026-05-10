@@ -38,4 +38,11 @@ public class TripController {
         List<Trip> trips = tripService.getAllTrips();
         return ResponseEntity.ok(trips);
     }
+
+    @PutMapping("/trip/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<?> updateTrip(@PathVariable Long id, @RequestBody TripInfo tripInfo) {
+        Trip updatedTrip = tripService.updateTrip(id, tripInfo);
+        return ResponseEntity.ok(updatedTrip);
+    }
 }

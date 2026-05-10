@@ -1,12 +1,8 @@
 package com.client.busticket.bus_service.service;
 
-import com.client.busticket.bus_service.entity.Bus;
-import com.client.busticket.bus_service.entity.Route;
-import com.client.busticket.bus_service.entity.Trip;
+import com.client.busticket.bus_service.entity.*;
 import com.client.busticket.bus_service.records.TripInfo;
-import com.client.busticket.bus_service.repository.BusRepository;
-import com.client.busticket.bus_service.repository.RouteRepository;
-import com.client.busticket.bus_service.repository.TripRepository;
+import com.client.busticket.bus_service.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +15,8 @@ public class TripService {
     private final RouteRepository routeRepository;
     private final BusRepository busRepository;
     private final TripRepository tripRepository;
+    private final DriverRepository driverRepository;
+    private final ConductorRepository conductorRepository;
 
     //Sets route and bus for a trip and saves it to the database
     public Trip saveTrip(TripInfo tripInfo) {
@@ -37,5 +35,17 @@ public class TripService {
 
     public List<Trip> getAllTrips() {
         return tripRepository.findAll();
+    }
+
+    public Trip updateTrip(Long id, TripInfo tripInfo) {
+        Driver driver = driverRepository.findById(tripInfo.driverId()).orElseThrow();
+        Conductor conductor = conductorRepository.findById(tripInfo.conductorId()).orElseThrow();
+        Trip trip = tripRepository.findById(id).orElseThrow();
+        //Setup cascade update for driver and conductor
+        trip.setDriver(driver);
+        trip.setConductor(conductor);
+        trip.setDepartureTime(tripInfo.departureTime());
+        trip.setArrivalTime(tripInfo.arrivalTime());
+        return tripRepository.save(trip);
     }
 }
