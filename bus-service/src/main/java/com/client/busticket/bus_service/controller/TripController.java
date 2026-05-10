@@ -6,9 +6,7 @@ import com.client.busticket.bus_service.service.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/trips")
@@ -20,10 +18,15 @@ public class TripController {
     @RequestMapping("/trip")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Trip> createTrip(@RequestBody TripInfo tripInfo) {
-        // Implementation for creating a trip
-
+        // Sets root and bus to the trip
         Trip trip = tripService.saveTrip(tripInfo);
-
         return ResponseEntity.ok(new Trip());
+    }
+
+    @GetMapping("/trip/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Trip> getTripById(@PathVariable Long id) {
+        Trip trip = tripService.getTripById(id);
+        return ResponseEntity.ok(trip);
     }
 }

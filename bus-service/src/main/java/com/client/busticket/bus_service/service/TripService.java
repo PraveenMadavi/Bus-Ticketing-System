@@ -18,6 +18,7 @@ public class TripService {
     private final BusRepository busRepository;
     private final TripRepository tripRepository;
 
+    //Sets route and bus for a trip and saves it to the database
     public Trip saveTrip(TripInfo tripInfo) {
         // Logic to save trip information to the database
         Route route = routeRepository.findById(tripInfo.routeId()).orElseThrow();
@@ -26,5 +27,9 @@ public class TripService {
         trip.setRoute(route);
         trip.setBus(bus);
         return tripRepository.save(trip);
+    }
+
+    public Trip getTripById(Long id) {
+        return tripRepository.findById(id).orElseThrow();
     }
 }
