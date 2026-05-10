@@ -15,7 +15,7 @@ public class TripController {
 
     private final TripService tripService;
 
-    @RequestMapping("/trip")
+    @PostMapping("/trip")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Trip> createTrip(@RequestBody TripInfo tripInfo) {
         // Sets root and bus to the trip
