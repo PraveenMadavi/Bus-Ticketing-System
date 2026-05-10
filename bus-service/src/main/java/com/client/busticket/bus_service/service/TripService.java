@@ -10,6 +10,8 @@ import com.client.busticket.bus_service.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TripService {
@@ -31,5 +33,9 @@ public class TripService {
 
     public Trip getTripById(Long id) {
         return tripRepository.findById(id).orElseThrow();
+    }
+
+    public List<Trip> getAllTrips() {
+        return tripRepository.findAll();
     }
 }

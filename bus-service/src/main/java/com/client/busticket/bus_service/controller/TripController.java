@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/trips")
 @RequiredArgsConstructor
@@ -28,5 +30,12 @@ public class TripController {
     public ResponseEntity<Trip> getTripById(@PathVariable Long id) {
         Trip trip = tripService.getTripById(id);
         return ResponseEntity.ok(trip);
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Trip>> getAllTrips() {
+        List<Trip> trips = tripService.getAllTrips();
+        return ResponseEntity.ok(trips);
     }
 }
