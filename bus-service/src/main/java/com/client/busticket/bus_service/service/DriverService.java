@@ -9,6 +9,8 @@ import com.client.busticket.bus_service.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DriverService {
@@ -40,5 +42,9 @@ public class DriverService {
         Trip trip = tripRepository.findById(tripId).orElseThrow();
         driver.getTrips().add(trip);
         driverRepository.save(driver);
+    }
+
+    public List<Driver> getAllDrivers() {
+        return driverRepository.findAll();
     }
 }
