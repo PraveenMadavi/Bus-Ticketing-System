@@ -48,7 +48,7 @@ public class TripService {
         trip.setConductor(conductor);
         trip.setDepartureTime(tripInfo.departureTime());
         trip.setArrivalTime(tripInfo.arrivalTime());
-
+        //IMPLEMENT: IF trip has already driver and conductor assigned, we need to remove the trip from their list of trips before assigning the new trip
         driverService.assignTrip(driver.getId(), trip.getId());
         conductorService.assignTrip(conductor.getId(), trip.getId());
 

@@ -6,7 +6,10 @@ import com.client.busticket.bus_service.records.ConductorInfo;
 import com.client.busticket.bus_service.repository.ConductorRepository;
 import com.client.busticket.bus_service.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,11 @@ public class ConductorService {
 
     public Conductor getConductorById(Long id){
         return conductorRepository.findById(id).orElseThrow();
+    }
+
+    public ResponseEntity<List<Conductor>> getAllConductors() {
+        List<Conductor> conductors = conductorRepository.findAll();
+        return ResponseEntity.ok(conductors);
     }
 
     public void assignTrip(Long conductorId, Long tripId) {
