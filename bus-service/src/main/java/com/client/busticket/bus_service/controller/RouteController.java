@@ -7,10 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/routes")
@@ -24,6 +23,20 @@ public class RouteController {
     public ResponseEntity<Route> addRoute(@RequestBody RouteInfo routeInfo) {
         Route route = routeService.saveRoute(routeInfo);
         return ResponseEntity.status(HttpStatus.CREATED).body(route);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Route> getRouteById(@PathVariable Long id) {
+        Route route = routeService.getRouteById(id);
+        return ResponseEntity.ok(route);
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Route>> getAllRoutes() {
+        List<Route> routes = routeService.getAllRoutes();
+        return ResponseEntity.ok(routes);
     }
 
 }

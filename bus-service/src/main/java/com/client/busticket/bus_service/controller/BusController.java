@@ -19,7 +19,7 @@ public class BusController {
     private final BusService busService;
 
     @PostMapping("/bus")
-    @PreAuthorize("hasAuthority('')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Bus> addBus(@RequestBody BusInfo busInfo) {
         Bus bus = busService.createBus(busInfo);
         return ResponseEntity.status(HttpStatus.CREATED).body(bus);

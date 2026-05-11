@@ -6,6 +6,8 @@ import com.client.busticket.bus_service.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RouteService {
@@ -20,4 +22,11 @@ public class RouteService {
     }
 
 
+    public Route getRouteById(Long id) {
+        return routeRepository.findById(id).orElseThrow();
+    }
+
+    public List<Route> getAllRoutes() {
+        return routeRepository.findAll();
+    }
 }
