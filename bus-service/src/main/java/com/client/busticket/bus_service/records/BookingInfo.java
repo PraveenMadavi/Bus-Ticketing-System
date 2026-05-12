@@ -1,12 +1,15 @@
 package com.client.busticket.bus_service.records;
 
+import com.client.busticket.bus_service.enums.BookingStatus;
+import com.client.busticket.bus_service.enums.PaymentStatus;
+
 import java.math.BigDecimal;
 
 public record BookingInfo(
         Long userId,
         Long tripId,
         BigDecimal amount,
-        String bookingStatus,
-        String paymentStatus
+        BookingStatus bookingStatus,
+        PaymentStatus paymentStatus
 ) {
 }
