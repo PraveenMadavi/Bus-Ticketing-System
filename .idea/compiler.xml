@@ -12,6 +12,7 @@
         <module name="api-gateway" />
         <module name="bus-service" />
         <module name="passenger-service" />
+        <module name="eureka-server" />
         <module name="notification-service" />
       </profile>
     </annotationProcessing>
@@ -22,6 +23,7 @@
       <module name="auth-service" options="-parameters" />
       <module name="booking-service" options="-parameters" />
       <module name="bus-service" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="passenger-service" options="-parameters" />
       <module name="payment-service" options="-parameters" />
