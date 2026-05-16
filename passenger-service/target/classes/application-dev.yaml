@@ -1,0 +1,11 @@
+# Passenger Service - Development Environment Configuration
+spring:
+  datasource:
+    url: jdbc:mysql://prod-server:3306/prod_database_auth
+    username: prod_user
+    password: prod_pass
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
