@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "bus-service", url = "http://localhost:8083")
+@FeignClient(name = "bus-service")
 public interface BusFeignClients {
 
     @GetMapping("/api/v1/buses/all")
