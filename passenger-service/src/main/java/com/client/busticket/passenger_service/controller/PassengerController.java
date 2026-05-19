@@ -20,12 +20,7 @@ public class PassengerController {
     public ResponseEntity<?> searchBuses(@RequestBody JourneyInfo journeyInfo) {
         // Get bus list from bus service based on the journey info
         // This will involve calling the bus service's API to get the available buses for the given journey info
-        // For now, we will return a placeholder response
-        List<BusInfo> allBuses = busFeignClients.getAllBuses();
-        System.out.println("allBuses = " + allBuses);
-        for (BusInfo bus : allBuses) {
-            System.out.println("bus = " + bus);
-        }
+
         return ResponseEntity.ok("List of available buses for the given journey info");
     }
 
