@@ -2,6 +2,7 @@ package com.client.busticket.bus_service.controller;
 
 import com.client.busticket.bus_service.entity.Bus;
 import com.client.busticket.bus_service.records.BusInfo;
+import com.client.busticket.bus_service.records.JourneyInfo;
 import com.client.busticket.bus_service.service.BusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,27 @@ public class BusController {
     @PreAuthorize("hasRole('USER')")
     public String test() {
         return "Bus Service is up and running! This is a test endpoint.";
+    }
+
+    /**
+     * Search for buses on a specific route on a given date
+     * Public endpoint accessible to all users
+     * @param journeyInfo Contains from (source), to (destination), and travelDate
+     * @return ResponseEntity containing list of buses or error message
+     */
+    @PostMapping("/public/search-buses")
+    public ResponseEntity<?> searchBuses(@RequestBody JourneyInfo journeyInfo) {
+        try {
+            List<Bus> buses = busService.searchBusesByJourney(journeyInfo);
+            List<BusInfo> busInfoList = buses.stream()
+                    .map(bus -> new BusInfo(bus.getBusNumber(), bus.getBusType().toString(), bus.getTotalSeats()))
+                    .toList();
+            return ResponseEntity.ok(busInfoList);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error searching for buses: " + e.getMessage());
+        }
     }
 
 }
