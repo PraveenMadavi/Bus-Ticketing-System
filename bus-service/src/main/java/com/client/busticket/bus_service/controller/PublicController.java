@@ -1,10 +1,12 @@
 package com.client.busticket.bus_service.controller;
 
+import com.client.busticket.bus_service.records.BusSearchResult;
 import com.client.busticket.bus_service.records.JourneyInfo;
 import com.client.busticket.bus_service.service.BusService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,22 +20,31 @@ public class PublicController {
 
     private final BusService busService;
 
-//    @GetMapping("/api/v1/public/search-buses")
-//    List<BusInfo> fetchBuses(JourneyInfo journeyInfo);
-    @GetMapping("/search-buses")
+    /**
+     * Search for buses with detailed trip information
+     * Public endpoint - accessible to all users without authentication
+     * Returns comprehensive trip details including departure/arrival times, driver, conductor, and available seats
+     * @param journeyInfo Contains from (source), to (destination), and travelDate
+     * @return ResponseEntity containing list of available buses with detailed trip information
+     */
+    @PostMapping("/search-buses")
     public ResponseEntity<?> searchBuses(@RequestBody JourneyInfo journeyInfo) {
-        // Get bus list from bus service based on the journey info
-        // This will involve calling the bus service's API to get the available buses for the given journey info
+        try {
+            // Get bus list from bus service based on the journey info
+            List<BusSearchResult> searchResults = busService.searchBusesWithTripDetails(journeyInfo);
 
-        return ResponseEntity.ok("List of available buses for the given journey info");
+            if (searchResults.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No buses found for route: " + journeyInfo.from() + " to " + journeyInfo.to() + " on " + journeyInfo.travelDate());
+            }
+            return ResponseEntity.ok(searchResults);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error searching for buses: " + e.getMessage());
+        }
     }
 
-//    @GetMapping("/api/v1/public/book-seats")
-//    void bookSeats(Long busId, List<Integer> seatNumbers);
-//
-//    @GetMapping("/api/v1/public/cancel-seats")
-//    void cancelSeats(Long busId, List<Integer> seatNumbers);
-//
-//    @GetMapping("/api/v1/public/check-bus-status")
-//    String checkBusStatus(Long busId);
 }
