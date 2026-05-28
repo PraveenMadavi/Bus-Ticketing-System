@@ -11,21 +11,33 @@ spring:
       server:
         webflux:
           routes:
-            - id: bus-service
-              uri: http://localhost:8083
+            - id: bus-service-bus
+              uri: lb://BUS-SERVICE
               predicates:
-                - Path=/api/v1/buses/**, /api/v1/trips/**
+                - Path=/api/v1/buses/**
 
-            - id: public-service
-              uri: http://localhost:8083
+            - id: bus-service-trip
+              uri: lb://BUS-SERVICE
               predicates:
-                - Path=/api/v1/public/**
+                - Path=/api/v1/trips/**
+
+            - id: bus-service-driver
+              uri: lb://BUS-SERVICE
+              predicates:
+                - Path=/api/v1/drivers/**
 
             - id: auth-service
-              uri: http://localhost:8081
+              uri: lb://AUTH-SERVICE
               predicates:
-                - Path=/api/v1/auth/**
+               - Path=/api/v1/auth/**
 
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
 logging:
   level:
