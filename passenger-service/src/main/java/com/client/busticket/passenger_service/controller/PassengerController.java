@@ -2,8 +2,10 @@ package com.client.busticket.passenger_service.controller;
 
 import com.client.busticket.passenger_service.configuration.BusFeignClients;
 import com.client.busticket.passenger_service.record.BusInfo;
+import com.client.busticket.passenger_service.record.BusSearchResult;
 import com.client.busticket.passenger_service.record.JourneyInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,14 @@ public class PassengerController {
     public ResponseEntity<?> searchBuses(@RequestBody JourneyInfo journeyInfo) {
         // Get bus list from bus service based on the journey info
         // This will involve calling the bus service's API to get the available buses for the given journey info
+        List<BusSearchResult> busSearchResults = null;
+        try {
+            busSearchResults = busFeignClients.fetchBuses(journeyInfo);
+            return ResponseEntity.ok().body(busSearchResults);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        return ResponseEntity.ok("List of available buses for the given journey info");
     }
 
     @PostMapping("/book-ticket")
