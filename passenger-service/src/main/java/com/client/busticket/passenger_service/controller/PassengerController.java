@@ -18,7 +18,7 @@ public class PassengerController {
 
     private final BusFeignClients busFeignClients;
 
-    @GetMapping("/search-buses")
+    @PostMapping("/search-buses")
     public ResponseEntity<?> searchBuses(@RequestBody JourneyInfo journeyInfo) {
         // Get bus list from bus service based on the journey info
         // This will involve calling the bus service's API to get the available buses for the given journey info
