@@ -18,21 +18,21 @@ public class ConductorController {
     private final ConductorService conductorService;
 
     @PostMapping("/conductor")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Conductor> addConductor(@RequestBody ConductorInfo conductorInfo) {
         Conductor conductor = conductorService.saveConductor(conductorInfo);
         return ResponseEntity.status(HttpStatus.CREATED).body(conductor);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getConductorById(Long id) {
         Conductor conductor = conductorService.getConductorById(id);
         return ResponseEntity.ok(conductor);
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Conductor>> getAllConductors() {
         return conductorService.getAllConductors();
     }
