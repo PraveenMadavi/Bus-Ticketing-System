@@ -19,7 +19,7 @@ public class RouteController {
     private final RouteService routeService;
 
     @PostMapping("/route")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Route> addRoute(@RequestBody RouteInfo routeInfo) {
         Route route = routeService.saveRoute(routeInfo);
         return ResponseEntity.status(HttpStatus.CREATED).body(route);

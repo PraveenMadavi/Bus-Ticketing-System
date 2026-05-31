@@ -19,6 +19,8 @@ public class Route {
 
     private String destination;
 
+    private double distance;
+
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Trip> trips;

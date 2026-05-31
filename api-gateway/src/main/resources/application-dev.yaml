@@ -31,6 +31,11 @@ spring:
               predicates:
                 - Path=/api/v1/conductors/**
 
+            - id: bus-service-route
+              uri: lb://BUS-SERVICE
+              predicates:
+                - Path=/api/v1/routes/**
+
             - id: auth-service
               uri: lb://AUTH-SERVICE
               predicates:
