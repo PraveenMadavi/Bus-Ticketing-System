@@ -64,6 +64,9 @@ public class AuthService {
 
         String token = jwtHelper.generateToken(user);
 
-        return new LoginResponse(token, "Login successful");
+        String userName = user.getAccntName();
+        String role = user.getRole().name();
+
+        return new LoginResponse(token, "Login successful", userName, role);
     }
 }
