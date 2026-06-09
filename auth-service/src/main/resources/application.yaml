@@ -7,5 +7,5 @@ spring:
     name: auth-service
   profiles:
     active:
-      - dev
+      - ${SPRING_PROFILES_ACTIVE:dev}
 
