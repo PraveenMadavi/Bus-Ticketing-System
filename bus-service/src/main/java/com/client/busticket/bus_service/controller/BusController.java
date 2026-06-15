@@ -3,6 +3,7 @@ package com.client.busticket.bus_service.controller;
 import com.client.busticket.bus_service.entity.Bus;
 import com.client.busticket.bus_service.records.BusInfo;
 import com.client.busticket.bus_service.records.BusSearchResult;
+import com.client.busticket.bus_service.records.DropdownDto;
 import com.client.busticket.bus_service.records.JourneyInfo;
 import com.client.busticket.bus_service.service.BusService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,16 @@ public class BusController {
     public ResponseEntity<List<Bus>> getAllBuses() {
         List<Bus> buses = busService.getAllBuses();
         return ResponseEntity.ok(buses);
+    }
+
+    @GetMapping("/dropdown")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<DropdownDto>> AllBuses() {
+        List<Bus> buses = busService.getAllBuses();
+        List<DropdownDto> dropdownDto = buses.stream()
+                .map(bus -> new DropdownDto(bus.getId(), bus.getBusNumber()))
+                .toList();
+        return ResponseEntity.ok(dropdownDto);
     }
 
     @GetMapping("/test")

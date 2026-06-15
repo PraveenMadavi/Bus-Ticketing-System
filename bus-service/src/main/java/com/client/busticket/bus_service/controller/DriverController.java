@@ -2,6 +2,7 @@ package com.client.busticket.bus_service.controller;
 
 import com.client.busticket.bus_service.entity.Driver;
 import com.client.busticket.bus_service.records.DriverInfo;
+import com.client.busticket.bus_service.records.DropdownDto;
 import com.client.busticket.bus_service.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,16 @@ public class DriverController {
     public ResponseEntity<List<Driver>> getAllDrivers() {
         List<Driver> drivers = driverService.getAllDrivers();
         return ResponseEntity.ok(drivers);
+    }
+
+    @GetMapping("/dropdown")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<DropdownDto>> AllDrivers() {
+        List<Driver> drivers = driverService.getAllDrivers();
+        List<DropdownDto> dropdownDto = drivers.stream()
+                .map(driver -> new DropdownDto(driver.getId(), driver.getName()))
+                .toList();
+        return ResponseEntity.ok(dropdownDto);
     }
 
     @PutMapping("/driver/{id}")

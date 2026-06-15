@@ -2,6 +2,7 @@ package com.client.busticket.bus_service.controller;
 
 import com.client.busticket.bus_service.entity.Conductor;
 import com.client.busticket.bus_service.records.ConductorInfo;
+import com.client.busticket.bus_service.records.DropdownDto;
 import com.client.busticket.bus_service.service.ConductorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,15 @@ public class ConductorController {
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Conductor>> getAllConductors() {
-        return conductorService.getAllConductors();
+        return ResponseEntity.ok(conductorService.getAllConductors());
+    }
+
+    @GetMapping("/dropdown")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<DropdownDto>> AllConductors() {
+        List<Conductor> allConductors = conductorService.getAllConductors();
+        List<DropdownDto> dropdownDto = allConductors.stream().map(conductor -> new DropdownDto(conductor.getId(), conductor.getName())).toList();
+        return ResponseEntity.ok(dropdownDto);
     }
 
 }

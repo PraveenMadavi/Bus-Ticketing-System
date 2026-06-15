@@ -1,6 +1,7 @@
 package com.client.busticket.bus_service.controller;
 
 import com.client.busticket.bus_service.entity.Route;
+import com.client.busticket.bus_service.records.DropdownDto;
 import com.client.busticket.bus_service.records.RouteInfo;
 import com.client.busticket.bus_service.service.RouteService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,16 @@ public class RouteController {
     public ResponseEntity<List<Route>> getAllRoutes() {
         List<Route> routes = routeService.getAllRoutes();
         return ResponseEntity.ok(routes);
+    }
+
+    @GetMapping("/dropdown")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<DropdownDto>> AllRoutes() {
+        List<Route> routes = routeService.getAllRoutes();
+        List<DropdownDto> dropdownDtos = routes.stream()
+                .map(route -> new DropdownDto(route.getId(), route.getSource()+" --> "+route.getDestination()))
+                .toList();
+        return ResponseEntity.ok(dropdownDtos);
     }
 
 }
