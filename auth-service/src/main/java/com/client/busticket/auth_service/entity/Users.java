@@ -38,7 +38,7 @@ public class Users implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_"+ role.name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
         Set<SimpleGrantedAuthority> grantedAuthorities = role.getPermissions().stream()
                 .map(permissions -> new SimpleGrantedAuthority(permissions.name()))
                 .collect(Collectors.toSet());
@@ -54,6 +54,10 @@ public class Users implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public String getAccntName() {
+        return this.userName;
     }
 
     @Override

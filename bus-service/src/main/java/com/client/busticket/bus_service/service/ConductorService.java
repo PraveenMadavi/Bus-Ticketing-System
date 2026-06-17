@@ -28,9 +28,8 @@ public class ConductorService {
         return conductorRepository.findById(id).orElseThrow();
     }
 
-    public ResponseEntity<List<Conductor>> getAllConductors() {
-        List<Conductor> conductors = conductorRepository.findAll();
-        return ResponseEntity.ok(conductors);
+    public List<Conductor> getAllConductors() {
+        return conductorRepository.findAll();
     }
 
     public void assignTrip(Long conductorId, Long tripId) {

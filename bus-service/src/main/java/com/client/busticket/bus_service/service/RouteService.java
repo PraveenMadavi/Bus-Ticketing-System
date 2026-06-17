@@ -18,6 +18,7 @@ public class RouteService {
         Route route = new Route();
         route.setSource(routeInfo.source());
         route.setDestination(routeInfo.destination());
+        route.setDistance(routeInfo.distance());
         return routeRepository.save(route);
     }
 
